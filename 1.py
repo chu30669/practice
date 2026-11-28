@@ -71,11 +71,12 @@ while True:
     print(matrix)
     I=func(E,*args)
     result=func(matrix,*args) #用同一个参数处理目标矩阵与单位矩阵，从而获得答案所需的初等矩阵
+    truth=order_judge(I,matrix,result,number)
     print(result)
     print(f"本行用于复制:{E},您可以在粘贴的列表上进行修改，使其变成您想要的初等矩阵")
     ans=ast.literal_eval(input("请输入对应初等矩阵:"))
     if ans!=I:
-        print("遗憾答错")
+        print(f"遗憾答错，正确初等矩阵为{result},方向为{truth}({'左乘' if truth=='left' else '右乘'})")
         print("是否继续回答？(是请回答y，否请回答n)")
         if input()=="n":
             print("游戏结束")
@@ -85,11 +86,10 @@ while True:
     else:
         print("矩阵正确")
         order=input("请判断左右乘(左用left,右用right)：")
-        truth=order_judge(I,matrix,result,number)
         if order==truth:
             print("恭喜答对!")
         else:
-            print(f"遗憾答错,这一步是{truth}({"左乘" if truth=="left" else "右乘"})")
+            print(f"遗憾答错,这一步是{truth}({'左乘' if truth=='left' else '右乘'})")
     print("是否继续回答？(是请回答y，否请回答n)")
     if input()=="n":
         print("游戏结束")
