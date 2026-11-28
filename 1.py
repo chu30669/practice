@@ -76,7 +76,7 @@ while True:
     print(f"本行用于复制:{E},您可以在粘贴的列表上进行修改，使其变成您想要的初等矩阵")
     ans=ast.literal_eval(input("请输入对应初等矩阵:"))
     if ans!=I:
-        print(f"遗憾答错，正确初等矩阵为{result},方向为{truth}({'左乘' if truth=='left' else '右乘'})")
+        print(f"遗憾答错，正确初等矩阵为{I},方向为{truth}({'左乘' if truth=='left' else '右乘'})")
         print("是否继续回答？(是请回答y，否请回答n)")
         if input()=="n":
             print("游戏结束")
