@@ -32,6 +32,23 @@ def col_addition(lst,a,b,num):
     for i in range(len(lst0)):
         lst0[i][a]+=lst0[i][b]*num
     return lst0
+'''转置'''
+def transpose(lst):
+    lst0=list(list(i) for i in zip(*lst))
+    return lst0
+'''矩阵的乘法'''
+def multiply(lst1,lst2):
+    lst0=[[sum(i*j for i,j in zip(row,col)) for col in transpose(lst2)] for row in lst1]
+    return lst0
+
+def order_judge(e, mtr, res, num):
+    left=multiply(e, mtr)
+    right=multiply(mtr, e)
+    if left==res and right!=res:
+        return "left"
+    if right==res and left!=res:
+        return "right"
+    return "left" if num%2==1 else "right"   # 两式相等时按变换类型兜底
 
 import random
 import ast
@@ -52,13 +69,13 @@ while True:
     E=[[1,0,0],[0,1,0],[0,0,1]]
     matrix=[[random.randint(-5,5) for _ in range(3)] for _ in range(3)]
     print(matrix)
-    n=(*args,)             #固定一个随机参数
-    I=func(E,*n)
-    result=func(matrix,*n) #用同一个参数处理目标矩阵与单位矩阵，从而获得答案所需的初等矩阵
+    I=func(E,*args)
+    result=func(matrix,*args) #用同一个参数处理目标矩阵与单位矩阵，从而获得答案所需的初等矩阵
     print(result)
-    ans=ast.literal_eval(input("请输入对应初等矩阵，并判断左右乘(以空格间隔)："))
-    if ans==I:
-        print("恭喜答对")
+    print(f"本行用于复制:{E},您可以在粘贴的列表上进行修改，使其变成您想要的初等矩阵")
+    ans=ast.literal_eval(input("请输入对应初等矩阵:"))
+    if ans!=I:
+        print("遗憾答错")
         print("是否继续回答？(是请回答y，否请回答n)")
         if input()=="n":
             print("游戏结束")
@@ -66,18 +83,19 @@ while True:
         else:
             continue
     else:
-        print("遗憾答错")
-        print("是否继续回答？(是请回答y，否请回答n)")
-        if input() == "n":
-            print("游戏结束")
-            break
+        print("矩阵正确")
+        order=input("请判断左右乘(左用left,右用right)：")
+        truth=order_judge(I,matrix,result,number)
+        if order==truth:
+            print("恭喜答对!")
         else:
-            continue
+            print(f"遗憾答错,这一步是{truth}({"左乘" if truth=="left" else "右乘"})")
+    print("是否继续回答？(是请回答y，否请回答n)")
+    if input()=="n":
+        print("游戏结束")
+        break
 
 
-#if __name__=='__main__':
-    #print(func([[1,0,0],[0,1,0],[0,0,1]],1,0))
-#    func=func_dict[number]
-#    args=params[number]
-#    result=func(E, *args)
-#    print(result)
+
+if __name__=='__main__':
+    pass
